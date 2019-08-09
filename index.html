@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>goldfish memory</title>
+    </head>
+    <body>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+            </div>
+        </div>
+        
+        <h1>MEMORY</h1>
+
+        <div class="game-screen">
+            <div class="card-board"></div>
+            <div class="game-info">
+                <div class="timer">Time: <span id="counter"></span></div>
+                <div>
+                    <button class="button-spacing" id="start-button">Start</button>
+                    <button id="score-button">Top 5 Scores</button>
+                </div>
+                <div id="radio-buttons">
+                    <label class="container">2 of kind
+                        <input type="radio" name="play-style" id="twoOfKind" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">3 of kind
+                        <input type="radio" name="play-style" id="threeOfKind">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/main.js"></script>
+    </body>
+</html>

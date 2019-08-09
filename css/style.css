@@ -1,0 +1,259 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: myFont;
+    color: #fff;
+}
+
+@font-face {
+    font-family: myFont;
+    src: url(fonts/Big_Bottom_Typeface_Normal.ttf),
+         url(fonts/Big_Bottom_Typeface_Normal.svg),
+         url(fonts/Big_Bottom_Typeface_Normal.eot);
+}
+
+body {
+	background-color: #00bc53;
+	height: 100vh;
+}
+
+.game-screen {
+	text-align: center
+}
+
+.card-board {
+	display: inline-grid;
+	grid-template-columns: repeat(6, 82px);
+	grid-gap: 20px 35px;
+}
+
+.game-info {
+	display: inline-grid;
+	font-size: 32px;
+	margin-left: 4%;
+	transform: translateY(-45px);
+	width: 240px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 60px;
+    margin-bottom: 50px;
+    line-height: 132px;
+}
+
+h2:last-child {
+	margin: 110px 0 50px 0;
+	cursor: pointer;
+}
+
+img {
+	height: 100px;
+	width: 82px;
+    border-radius: 4px;
+}
+
+.timer {
+	line-height: 40px;
+	margin-bottom: 70px;
+	text-align: left;
+}
+
+ol {
+	margin-left: 40%;
+	margin-top: 5%;
+	margin-bottom: 15%;
+}
+
+li {
+	margin-right: 65%;
+	font-size: 28px;
+	line-height: 50px;
+}
+
+button {
+    background: #a8c0ff;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #6e58cf, #97b4ff);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #6e58cf, #97b4ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding-bottom: 28px;
+    line-height: 42px;
+    cursor: pointer;
+    border-radius: 7px;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 28px;
+    text-align: center;
+    width: 200px;
+	outline: none;
+	display: block;
+}
+
+.button-spacing {
+	margin-bottom: 25px;
+}
+
+/* for JS */
+.disabled {
+	opacity: 0.3;
+	 pointer-events: none;
+}
+
+/*==============*/
+/* RADIO BUTTON */
+/*==============*/
+
+/* Customize the label (the container) */
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* Create a custom radio button */
+.checkmark {
+	position: absolute;
+	top: 30px;
+	left: 0;
+	height: 25px;
+	width: 25px;
+	background-color: #eee;
+	border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+	background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+	background-color: #0e8cd1;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+	display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: rgb(255, 255, 255);
+}
+
+/* =================== */
+/*  FLIPPING ANIMATION */
+/* =================== */
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+}
+
+.flip {
+	transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+	width: 82px;
+	height: 100px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+}
+
+/* ============ */
+/* MODAL WINDOW */
+/* ============ */
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: rgba(0, 0, 0, 0.7);
+	margin: 4% auto 0 auto; /* 15% from the top and centered */
+	/* margin: 5% auto; */
+	padding: 20px;
+	width: 55%; /* Could be more or less, depending on screen size */
+	border-radius: 10px;
+	text-align: center;
+	font-size: 20px;
+	height: 80%;
+}
+
+.modal-content p {
+	font-size: 32px;
+	line-height: 32px;
+	text-align: right;
+	transform: translate(8px, -28px);
+	cursor: pointer;
+}
+
+.modal-content p {
+	font-size: 32px;
+	line-height: 32px;
+	text-align: right;
+	transform: translate(8px, -28px);
+	cursor: pointer;
+}
