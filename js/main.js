@@ -10,7 +10,7 @@ let hasFlippedSecondCard = false;
 let firstCard, secondCard, thirdCard;
 
 const numOfCards = 24;
-let minutes = 0.1;
+let minutes = 2;
 let mem_card;
 let points;
 let cardsFlipped;
