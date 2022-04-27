@@ -1,3 +1,3 @@
 # v3_goldfish_memory
 
-https://reverent-kowalevski-08ac08.netlify.app/
+https://andrej00.github.io/v3_goldfish_memory/
