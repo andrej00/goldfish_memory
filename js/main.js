@@ -1,27 +1,28 @@
-var cardBoard = document.getElementsByClassName("card-board")[0];
+const cardBoard = document.getElementsByClassName("card-board")[0];
 var front = document.querySelectorAll(".front");
-var counter = document.getElementById("counter");
-var modal = document.getElementById("myModal");
-var modalContent = document.getElementsByClassName("modal-content")[0];
+const counter = document.getElementById("counter");
+const modal = document.getElementById("myModal");
+const modalContent = document.getElementsByClassName("modal-content")[0];
 
-// for checking if the cards are equal
-var lockBoard = false;
-var hasFlippedFirstCard = false;
-var hasFlippedSecondCard = false;
-var firstCard, secondCard, thirdCard;
+let lockBoard = false;
+let hasFlippedFirstCard = false;
+let hasFlippedSecondCard = false;
+let firstCard, secondCard, thirdCard;
 
-var numOfCards = 24;
-var minutes = 2;
-var mem_card;
-var points;
-var cardsFlipped;
-var kind;
-var x = null;
+const numOfCards = 24;
+let minutes = 0.1;
+let mem_card;
+let points;
+let cardsFlipped;
+let kind;
+let x = null;
+const self = this;
 
 setUpGame();
 
 function setUpGame() {
     mem_card = [];
+	console.log(minutes)
     counter.innerHTML = minutes + ":00";
     clearInterval(x);
     removeChildrenElements(cardBoard);
@@ -46,30 +47,30 @@ function start() {
 /* =============== */
 document.getElementById("start-button").addEventListener("click", () => start());
 
-document.getElementById("twoOfKind").addEventListener("click", function() {
-    kind = this.id;
+document.getElementById("twoOfKind").addEventListener("click", (e) => {
+    kind = e.currentTarget.id;
     setUpGame();
 });
 
-document.getElementById("threeOfKind").addEventListener("click", function() {
-    kind = this.id;
+document.getElementById("threeOfKind").addEventListener("click", (e) => {
+	console.log(e.currentTarget.id)
+    kind = e.currentTarget.id;
     setUpGame();
 });
 
-document.getElementById("score-button").addEventListener("click", function() {
+document.getElementById("score-button").addEventListener("click", () => {
     setUpGame();
     displayScore();
 });
 
-// creates html elements which are required for flipping the cards
 function setCards() {
-    for (var i = 0; i < numOfCards; i++) {
-        var flipContainer = document.createElement("div");
-        var flipper = document.createElement("div");
-        var front = document.createElement("div");
-        var frontImage = document.createElement("img");
-        var back = document.createElement("div");
-        var backImage = document.createElement("img");
+    for (let i = 0; i < numOfCards; i++) {
+        const flipContainer = document.createElement("div");
+        const flipper = document.createElement("div");
+        const front = document.createElement("div");
+        const frontImage = document.createElement("img");
+        const back = document.createElement("div");
+        const backImage = document.createElement("img");
 
         cardBoard.appendChild(flipContainer);
         flipContainer.appendChild(flipper);
@@ -78,15 +79,11 @@ function setCards() {
         flipper.appendChild(back);
         back.appendChild(backImage);
 
-        // adds images to cards
         frontImage.src = "files/images/mem_card_2.png";
         backImage.src = "files/images/mem_" + mem_card[i] + ".png";
 
-        // each card will have the data-image attribute and 
-        // its value will be the number from mem_card array
         flipper.setAttribute("data-image", mem_card[i]);
 
-        // adds css classes to created elements
         flipContainer.classList.add("flip-container");
         flipper.classList.add("flipper");
         front.classList.add("front");
@@ -98,27 +95,27 @@ function setCards() {
 /* CHECKS IF THE CARDS ARE EQUAL */
 /* ============================= */
 function flipCard() {
-    var flipContainer = document.querySelectorAll(".flip-container");
-    for (var i = 0; i < numOfCards; i++) {
-        flipContainer[i].firstChild.addEventListener("click", function() {
+    const flipContainer = document.querySelectorAll(".flip-container");
+    for (let i = 0; i < numOfCards; i++) {
+        flipContainer[i].firstChild.addEventListener("click", (e) => {
             if (lockBoard) return;
-            if (this === firstCard || this === secondCard) return;
+            if (e.currentTarget === firstCard || e.currentTarget === secondCard) return;
 
-            this.classList.add("flip");
+            e.currentTarget.classList.add("flip");
 
             if (!hasFlippedFirstCard) {
                 hasFlippedFirstCard = true;
-                firstCard = this;
+                firstCard = e.currentTarget;
                 return;
             } else if (!hasFlippedSecondCard) {
                 hasFlippedSecondCard = true;
-                secondCard = this;
+                secondCard = e.currentTarget;
                 if (kind !== "threeOfKind") {
                     checkForMatch();
                 }
                 return;
             } else {
-                thirdCard = this;
+                thirdCard = e.currentTarget;
                 checkForMatch();
             }
         });
@@ -126,25 +123,15 @@ function flipCard() {
 }
 
 function checkForMatch() {
-    var firstAttr = firstCard.getAttribute("data-image");
-    var secondAttr = secondCard.getAttribute("data-image");
+    const firstAttr = firstCard.getAttribute("data-image");
+    const secondAttr = secondCard.getAttribute("data-image");
+    let thirdAttr = secondCard.getAttribute("data-image");
 
-    // by default thirdAttr will have the secondCard attribute
-    var thirdAttr = secondCard.getAttribute("data-image");
-
-    // if the kind is three of kind thirdAttr will have 
-    // the data attribute of the third card that is clicked
     if (kind === "threeOfKind") {
         thirdAttr = thirdCard.getAttribute("data-image");
     }
-    // } else {
-    //     // else: thirdAttr will have the attribute of the second card that is clicked
-    //     // it is set like this because when we compare the secondAttr and thirdAttr
-    //     // they will be true, that way it won't make any difference when comparing for isMatch
-    //     thirdAttr = secondCard.getAttribute("data-image");
-    // }
 
-    var isMatch = false;
+    let isMatch = false;
     if (firstAttr === secondAttr && secondAttr === thirdAttr) {
         isMatch = true;
     }
@@ -179,24 +166,19 @@ function unflipCards() {
     resetBoard();
 }
 
-// after each successful or failed attempt of picking two/three cards
-// resetBoard() will be called
 function resetBoard() {
-  [hasFlippedFirstCard, hasFlippedSecondCard, lockBoard] = [false, false, false];
-  [firstCard, secondCard, thirdCard] = [null, null, null];
+	[hasFlippedFirstCard, hasFlippedSecondCard, lockBoard] = [false, false, false];
+	[firstCard, secondCard, thirdCard] = [null, null, null];
 }
-/* ============================= */
 
 function randomCards() {
-    // adds cards for two of kind
     if (kind !== "threeOfKind") {
-        for (var i = 1; i <= numOfCards / 2; i++) {
+        for (let i = 1; i <= numOfCards / 2; i++) {
             mem_card.push(i);
             mem_card.push(i);
         }
     } else {
-        // adds cards for three of kind
-        for (var i = 1; i <= numOfCards / 3; i++) {
+        for (let i = 1; i <= numOfCards / 3; i++) {
             mem_card.push(i);
             mem_card.push(i);
             mem_card.push(i);
@@ -206,11 +188,10 @@ function randomCards() {
 }
 
 function shuffleCards() {
-    var i = mem_card.length;
+    let i = mem_card.length;
     while (i > 0) {
-        var index = Math.floor(Math.random() * i);
+        let index = Math.floor(Math.random() * i);
         i--;
-        // this does the shuffling
         [mem_card[index], mem_card[i]] = [mem_card[i], mem_card[index]];
     }
 }
@@ -225,16 +206,16 @@ function removeChildrenElements(parent) {
 /* TIMER */
 /* ===== */
 function countdown() {
-    var distance = minutes * 60 * 1000;
+    let distance = minutes * 60 * 1000;
 
     x = setInterval(() => {
 
         distance -= 1000;
 
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const minutesCountDown = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const secondsCountDown = Math.floor((distance % (1000 * 60)) / 1000);
 
-        counter.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+        counter.innerHTML = minutesCountDown + ":" + (secondsCountDown < 10 ? "0" : "") + String(secondsCountDown);
 
         if (distance < 1) {
             clearInterval(x);
@@ -250,100 +231,96 @@ function countdown() {
 function displayScore() {
     modal.style.display = "block";
 
-    var close = document.createElement("p");
+    const close = document.createElement("p");
     close.innerHTML = "x";
     modalContent.appendChild(close);
 
-    var firstH2 = document.createElement("h2");
+    const firstH2 = document.createElement("h2");
     firstH2.innerHTML = "Top 5 Scores:";
     modalContent.appendChild(firstH2);
 
-    var ol = document.createElement("ol");
+    const ol = document.createElement("ol");
     modalContent.appendChild(ol);
     ol.classList.add("high-scores");    
 
     getHighScores();
-
     closeModalListener(close);
 }
 
 function displayWinningModal() {
-    // gets the time left from counter from html
-    var timeLeft = counter.innerHTML.split(":");
-    var minutes = parseInt(timeLeft[0]);
-    var seconds = parseInt(timeLeft[1]);
+    const timeLeft = counter.innerHTML.split(":");
+    const minutes = parseInt(timeLeft[0]);
+    const seconds = parseInt(timeLeft[1]);
 
     clearInterval(x);
 
-    var score = minutes*60 + seconds + points;
+    const score = minutes * 60 + seconds + points;
 
     updateScore(score);
 
     modal.style.display = "block";
     
-    var close = document.createElement("p");
+    const close = document.createElement("p");
     close.innerHTML = "x";
     modalContent.appendChild(close);
 
-    var firstH2 = document.createElement("h2");
+    const firstH2 = document.createElement("h2");
     firstH2.innerHTML = "Congratulations";
     modalContent.appendChild(firstH2);
 
-    var secondH2 = document.createElement("h2");
+    const secondH2 = document.createElement("h2");
     secondH2.innerHTML = "Your score is:";
     modalContent.appendChild(secondH2);
 
-    var thirdH2 = document.createElement("h2");
+    const thirdH2 = document.createElement("h2");
     thirdH2.innerHTML = score;
     modalContent.appendChild(thirdH2);
 
-    var fourthH2 = document.createElement("h2");
+    const fourthH2 = document.createElement("h2");
     fourthH2.innerHTML = "Play again!";
     modalContent.appendChild(fourthH2);
 
     playAgainModalListener(fourthH2);
-
     closeModalListener(close);
 }
 
 function displayGameOverModal() {
     modal.style.display = "block";
 
-    var close = document.createElement("p");
+    const close = document.createElement("p");
     close.innerHTML = "x";
     modalContent.appendChild(close);
 
-    var firstH2 = document.createElement("h2");
-    firstH2.innerHTML = "Awww :((";
-    modalContent.appendChild(firstH2);
+    const awww = document.createElement("h2");
+    awww.innerHTML = "Awww :((";
+    modalContent.appendChild(awww);
 
-    var secondH2 = document.createElement("h2");
-    secondH2.innerHTML = "Your time";
-    modalContent.appendChild(secondH2);
+    const yourTime = document.createElement("h2");
+    yourTime.innerHTML = "Your time";
+    modalContent.appendChild(yourTime);
 
-    var thirdH2 = document.createElement("h2");
-    thirdH2.innerHTML = "is up!";
-    modalContent.appendChild(thirdH2);
+    const isUp = document.createElement("h2");
+    isUp.innerHTML = "is up!";
+    modalContent.appendChild(isUp);
 
-    var fourthH2 = document.createElement("h2");
-    fourthH2.innerHTML = "Play again!";
-    modalContent.appendChild(fourthH2);
+    const playAgain = document.createElement("h2");
+    playAgain.innerHTML = "Play again!";
+    modalContent.appendChild(playAgain);
 
-    playAgainModalListener(fourthH2)
-
+    playAgainModalListener(playAgain)
     closeModalListener(close);
 }
-// event listener for "Play again"
+
 function playAgainModalListener(el) {
-    el.addEventListener("click", function() {
+    el.addEventListener("click", () => {
         start();
         modal.style.display = "none";
         removeChildrenElements(modalContent);
     });
 }
-// event listener for "x"
+
 function closeModalListener(el) {
-    el.addEventListener("click", function() {
+    el.addEventListener("click", () => {
         setUpGame();
         modal.style.display = "none";
         removeChildrenElements(modalContent);
@@ -354,19 +331,19 @@ function closeModalListener(el) {
 /* HIGHSCORE */
 /* ========= */
 function getHighScores() {
-    var highScores = document.querySelector(".high-scores");
+    const highScores = document.querySelector(".high-scores");
 
     removeChildrenElements(highScores);
 
     if (typeof(Storage) !== "undefined") {
-        var scores = false;
+        const scores = false;
         if (localStorage["high-scores"]) {
             scores = JSON.parse(localStorage["high-scores"]);
             scores = scores.sort((a, b) => parseInt(b) - parseInt(a));
 
-            for (var i = 0; i < 5; i++) {
-                var s = scores[i];                        
-                var li = document.createElement('li');
+            for (let i = 0; i < 5; i++) {
+                const s = scores[i];                        
+                const li = document.createElement('li');
                 li.innerHTML = (typeof(s) != "undefined" ? s : "" );
                 highScores.appendChild(li);
             }
@@ -376,16 +353,16 @@ function getHighScores() {
 
 function updateScore(currentPoints) {
     if (typeof(Storage) !== "undefined") {
-        var scores = false;
+        let scores = false;
         if (localStorage["high-scores"]) {
 
             scores = JSON.parse(localStorage["high-scores"]);
             scores = scores.sort((a, b) => parseInt(b) - parseInt(a));
             
-            for (var i = 0; i < 5; i++) {
-                var s = parseInt(scores[i]);
+            for (let i = 0; i < 5; i++) {
+                const s = parseInt(scores[i]);
                 
-                var val = (!isNaN(s) ? s : 0 );
+                let val = (!isNaN(s) ? s : 0 );
                 if (currentPoints > val) {
                     val = currentPoints;
                     scores.splice(i, 0, parseInt(currentPoints));
@@ -395,7 +372,7 @@ function updateScore(currentPoints) {
             scores.length = 10;                                
             localStorage["high-scores"] = JSON.stringify(scores);
         } else {                        
-            var scores = [];
+            scores = [];
             scores[0] = currentPoints;
             localStorage["high-scores"] = JSON.stringify(scores);
         }
